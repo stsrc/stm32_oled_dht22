@@ -127,45 +127,40 @@ int main(void) {
 
 	ssd1306_Init();
 	ssd1306_SetDisplayOn(1);
-	ssd1306_Fill(Black);
 
-	//TODO: why I can not draw at 0, but it is possible to draw at 129?
-	for (int i = 0; i < 64; i++) {
-		ssd1306_DrawPixel(129, i, White);
-		ssd1306_DrawPixel(3, i, White);
-	}
-	for (int i = 3; i < 130; i++) {
-		ssd1306_DrawPixel(i, 0, White);
-		ssd1306_DrawPixel(i, 63, White);
-	}
-	ssd1306_SetCursor(10, 3);
-	ssd1306_UpdateScreen();
 
 	struct dht22 dht22 = dht22_init(GPIOA, GPIO_PIN_6);
-
-	dht22_get_result(&dht22);
-	char buffer[32];
-	memset(buffer, 0, sizeof(buffer));
-	int tone = dht22.temperature;
-	int ttwo = dht22.temperature * 100 - tone * 100;
-	int three = dht22.humidity;
-	snprintf(buffer, sizeof(buffer), "temp: %d.%d", tone, ttwo);
-	ssd1306_WriteString(buffer, Font_6x8, White);
-	ssd1306_SetCursor(10, 25);
-	snprintf(buffer, sizeof(buffer), "humi: %d", three);
-	ssd1306_WriteString(buffer, Font_6x8, White);
-	ssd1306_UpdateScreen();
+	ssd1306_SetDisplayOn(1);
 
 	while(1) {
-		delay_ms(1000);
-		ssd1306_SetDisplayOn(0);
-		delay_ms(1000);
-		ssd1306_SetDisplayOn(1);
+		ssd1306_Fill(Black);
+
+		//TODO: why I can not draw at 0, but it is possible to draw at 129?
+		for (int i = 0; i < 64; i++) {
+			ssd1306_DrawPixel(129, i, White);
+			ssd1306_DrawPixel(3, i, White);
+		}
+		for (int i = 3; i < 130; i++) {
+			ssd1306_DrawPixel(i, 0, White);
+			ssd1306_DrawPixel(i, 63, White);
+		}
+		ssd1306_SetCursor(10, 3);
+		ssd1306_UpdateScreen();
+
+		dht22_get_result(&dht22);
+		char buffer[32];
+		memset(buffer, 0, sizeof(buffer));
+		int tone = dht22.temperature;
+		int ttwo = dht22.temperature * 100 - tone * 100;
+		int three = dht22.humidity;
+		snprintf(buffer, sizeof(buffer), "temp: %d.%d", tone, ttwo);
+		ssd1306_WriteString(buffer, Font_6x8, White);
+		ssd1306_SetCursor(10, 25);
+		snprintf(buffer, sizeof(buffer), "humi: %d", three);
+		ssd1306_WriteString(buffer, Font_6x8, White);
+		ssd1306_UpdateScreen();
+		delay_ms(2000);
 	}
 
 	return 0;
-}
-
-void TIM3_IRQHandler(void)
-{
 }
