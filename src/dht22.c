@@ -75,13 +75,13 @@ struct dht22 dht22_init(GPIO_TypeDef *gpio, uint32_t pin)
 	return dht22;
 }
 
-uint8_t result[5];
-uint16_t last_val = 0;
+static __IO uint8_t result[5];
+static __IO uint16_t last_val = 0;
 
 void dht22_get_result(struct dht22 *dht22)
 {
 	bitpos = -1;
-	memset(result, 0, sizeof(result));
+	memset((void *) result, 0, sizeof(result));
 	last_val = 0;
 
 	dht22_switch_pin_direction(dht22, true);
