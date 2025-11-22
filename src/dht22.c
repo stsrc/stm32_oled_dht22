@@ -33,7 +33,6 @@ struct dht22 dht22_init(GPIO_TypeDef *gpio, uint32_t pin)
 	GPIO_InitTypeDef gpios = {0};
 	gpios.Pin = pin;
 	gpios.Mode = GPIO_MODE_OUTPUT_OD;
-//	gpios.Pull = GPIO_PULLUP;
 	gpios.Speed = GPIO_SPEED_FREQ_HIGH;
 	HAL_GPIO_Init(gpio, &gpios);
 
