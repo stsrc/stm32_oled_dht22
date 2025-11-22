@@ -6,7 +6,7 @@
 #include <stm32f1xx_hal.h>
 #include <string.h>
 
-int32_t bitpos = -1;
+__IO int32_t bitpos = -1;
 
 static void dht22_switch_pin_direction(struct dht22 *dht22, bool out)
 {
@@ -95,7 +95,9 @@ void dht22_get_result(struct dht22 *dht22)
 		while(1);
 	}
 
-	delay_ms(1000);
+	while (bitpos < 5 * 8) {
+		delay_ms(20);
+	}
 
 	if (HAL_TIM_IC_Stop_IT(&htim3, TIM_CHANNEL_1) != HAL_OK) {
 		while(1);
