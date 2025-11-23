@@ -65,6 +65,11 @@ clean:
 debug: $(ELF)
 	armeb-unknown-eabi-gdb $(ELF)
 
+src.bin: $(ELF)
+	arm-none-eabi-objcopy -O binary $(ELF) src.bin
+
+flash: src.bin
+	st-flash write src.bin 0x8000000
 
 # pull in dependencies
 

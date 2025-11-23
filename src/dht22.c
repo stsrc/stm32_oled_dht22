@@ -10,9 +10,8 @@ __IO int32_t bitpos = -1;
 
 static void dht22_switch_pin_direction(struct dht22 *dht22, bool out)
 {
-	GPIO_InitTypeDef gpios;
-	gpios.Pin = GPIO_PIN_6;
-	gpios.Pull = GPIO_PULLUP;
+	GPIO_InitTypeDef gpios = {0};
+	gpios.Pin = dht22->pin;
 	gpios.Speed = GPIO_SPEED_FREQ_HIGH;
 	if (out) {
 		gpios.Mode = GPIO_MODE_OUTPUT_OD;
@@ -30,11 +29,7 @@ struct dht22 dht22_init(GPIO_TypeDef *gpio, uint32_t pin)
 	dht22.gpio = gpio;
 	dht22.pin = pin;
 
-	GPIO_InitTypeDef gpios = {0};
-	gpios.Pin = pin;
-	gpios.Mode = GPIO_MODE_OUTPUT_OD;
-	gpios.Speed = GPIO_SPEED_FREQ_HIGH;
-	HAL_GPIO_Init(gpio, &gpios);
+	dht22_switch_pin_direction(&dht22, false);
 
 	__HAL_RCC_TIM3_CLK_ENABLE();
 
@@ -71,6 +66,8 @@ struct dht22 dht22_init(GPIO_TypeDef *gpio, uint32_t pin)
 	HAL_NVIC_SetPriority(TIM3_IRQn, 0, 0);
 	HAL_NVIC_EnableIRQ(TIM3_IRQn);
 
+	delay_ms(1000); // let dht22 startup
+
 	return dht22;
 }
 
@@ -95,7 +92,8 @@ void dht22_get_result(struct dht22 *dht22)
 		while(1);
 	}
 
-	while (bitpos < 5 * 8) {
+	int timeout = 0;
+	while (bitpos < 5 * 8 && timeout++ < 50) {
 		delay_ms(20);
 	}
 

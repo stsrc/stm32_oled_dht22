@@ -128,16 +128,24 @@ int main(void) {
 	ssd1306_Init();
 	ssd1306_SetDisplayOn(1);
 
-
 	struct dht22 dht22 = dht22_init(GPIOA, GPIO_PIN_6);
-	ssd1306_SetDisplayOn(1);
 
 	int cnt = 0;
+
 	while(1) {
 		ssd1306_Fill(Black);
+
 		dht22_get_result(&dht22);
+
+		extern int32_t bitpos;
+
 		char buffer[32];
-		memset(buffer, 0, sizeof(buffer));
+		if (bitops != 40) {
+			ssd1306_SetCursor(5, 55);
+			snprintf(buffer, sizeof(buffer), "%d", (int) bitpos);
+			ssd1306_WriteString(buffer, Font_6x8, White);
+		}
+
 		int tone = dht22.temperature;
 		int ttwo = dht22.temperature * 100 - tone * 100;
 		int humidity = dht22.humidity;
