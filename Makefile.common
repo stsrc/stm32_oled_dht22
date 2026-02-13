@@ -4,7 +4,7 @@ ELF=$(notdir $(CURDIR)).elf
 
 # Libroot path
 
-LIBROOT=/home/kgotfryd/programming/workspace/stm32cube/STM32CubeF1-1.8.0/Drivers/
+LIBROOT=$(CURDIR)/../external/STM32CubeF1/Drivers/
 
 # Tools
 

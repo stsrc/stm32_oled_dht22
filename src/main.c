@@ -140,7 +140,7 @@ int main(void) {
 		extern int32_t bitpos;
 
 		char buffer[32];
-		if (bitops != 40) {
+		if (bitpos != 40) {
 			ssd1306_SetCursor(5, 55);
 			snprintf(buffer, sizeof(buffer), "%d", (int) bitpos);
 			ssd1306_WriteString(buffer, Font_6x8, White);
