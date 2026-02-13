@@ -1,10 +1,10 @@
 # STM32 DHT22 OLED device
 
-Project bases on STM32F1 VL Discovery board, and consist of DHT22 sensor and small OLED screen, hence air temperature and humidity can be measured and presented.
+Project bases on STM32F1 VL Discovery board, and consists of DHT22 sensor and small OLED screen, hence air temperature and humidity can be measured and presented.
 
 ## Building:
  1.  call `apt update && apt install gcc-arm-none-eabi` on Ubuntu or any similar command on other non-apt OS.
-If you package management system does not have arm baremetal compilers, you must provide them on your own. Makefile assumes that their names are like:
+If your package management system does not have arm baremetal compilers, you must provide them on your own. Makefile assumes that their names are like:
 
    * `arm-none-eabi-gcc`,
    * `arm-none-eabi-ar`,
