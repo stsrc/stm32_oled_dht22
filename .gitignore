@@ -3,3 +3,4 @@
 *elf
 *.out
 *.d
+.venv
