@@ -7,9 +7,6 @@
 #include <stdio.h>
 #include "dht22.h"
 
-#define PIN GPIO_PIN_6
-#define PORT GPIOA
-
 
 #define LED_port GPIOC
 #define LED_Blue (1 << 8)
@@ -59,23 +56,12 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef *hspi)
 		GPIO_SPEED_FREQ_HIGH
 	};
 
-	GPIO_InitTypeDef gpio_miso =
-	{
-		GPIO_PIN_6,
-		GPIO_MODE_AF_INPUT,
-		GPIO_PULLDOWN,
-		GPIO_SPEED_FREQ_HIGH
-	};
-
 	__HAL_RCC_SPI1_CLK_ENABLE();
-	__HAL_RCC_GPIOA_CLK_ENABLE();
 
 	HAL_GPIO_Init(GPIOA, &gpio);
 
 	gpio.Pin = GPIO_PIN_7;
 	HAL_GPIO_Init(GPIOA, &gpio);
-
-	HAL_GPIO_Init(GPIOA, &gpio_miso);
 }
 
 static void SPI_handler_basic_init(SPI_HandleTypeDef *spi_handler,
